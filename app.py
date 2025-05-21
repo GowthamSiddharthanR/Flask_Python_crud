@@ -2,6 +2,8 @@ from flask import Flask, request, redirect, url_for, render_template
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
+import os
+
 app = Flask(__name__)
 
 client = MongoClient("mongodb+srv://gowthamsiddharthan88:76SVBfLTQhaHZM20@cluster0.dcrypio.mongodb.net/")
@@ -36,5 +38,8 @@ def delete(user_id):
     users_collection.delete_one({'_id': ObjectId(user_id)})
     return redirect(url_for('index'))
 
-if __name__ == '__main__':
-    app.run(debug=True) 
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Get port from environment (Render provides it)
+    app.run(host="0.0.0.0", port=port, debug=True)
+
